@@ -1,0 +1,8 @@
+# Ignore firebase Config on config.js that contain:
+# const appSettings = {
+#     databaseURL: {Your firebase realtime database Refference URL}
+# }
+# export default appSettings;
+# 
+
+config.js
