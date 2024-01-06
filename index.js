@@ -5,28 +5,42 @@ import {
   getDatabase,
   ref,
   push,
+  onValue,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 const app = initializeApp(appSettings);
 const database = getDatabase(app);
-
 const shoppingListInDB = ref(database, "shoppingList");
 
 const inputFieldEl = document.getElementById("input-field");
 const addButtonEl = document.getElementById("add-button");
 const shoppingListEl = document.getElementById("shopping-list");
 
+onValue(shoppingListInDB, (snapshot) => {
+  let shoppingArray = Object.values(snapshot.val());
+
+  clearList();
+
+  for (let i in shoppingArray) {
+    const currentItem = shoppingArray[i];
+
+    appendItemToList(currentItem);
+  }
+});
+
 addButtonEl.addEventListener("click", () => {
   let inputValue = inputFieldEl.value;
 
-  // push(shoppingListInDB, inputValue);
+  push(shoppingListInDB, inputValue);
 
   clearInput();
 
-  appendItemToList(inputValue);
-
   console.log(`${inputValue} Added to Database`);
 });
+
+const clearList = () => {
+  shoppingListEl.innerHTML = "";
+};
 
 const clearInput = () => {
   inputFieldEl.value = "";
@@ -35,15 +49,3 @@ const clearInput = () => {
 const appendItemToList = (inputValue) => {
   shoppingListEl.innerHTML += `<li>${inputValue}</li>`;
 };
-
-// Change object to an array
-
-let users = {
-  "00": "anjas@example.com",
-  "01": "fedo@example.com",
-  "02": "gantenk@example.com",
-};
-
-console.log(Object.values(users)); // Get values of each object property
-console.log(Object.keys(users)); // Get keys of each object property
-console.log(Object.entries(users)); // Get array with [key, values] of each object property
