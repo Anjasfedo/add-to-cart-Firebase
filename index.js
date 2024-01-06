@@ -21,9 +21,29 @@ addButtonEl.addEventListener("click", () => {
 
   // push(shoppingListInDB, inputValue);
 
-  inputFieldEl.value = "";
+  clearInput();
 
-  shoppingListEl.innerHTML += `<li>${inputValue}</li>`;
+  appendItemToList(inputValue);
 
   console.log(`${inputValue} Added to Database`);
 });
+
+const clearInput = () => {
+  inputFieldEl.value = "";
+};
+
+const appendItemToList = (inputValue) => {
+  shoppingListEl.innerHTML += `<li>${inputValue}</li>`;
+};
+
+// Change object to an array
+
+let users = {
+  "00": "anjas@example.com",
+  "01": "fedo@example.com",
+  "02": "gantenk@example.com",
+};
+
+console.log(Object.values(users)); // Get values of each object property
+console.log(Object.keys(users)); // Get keys of each object property
+console.log(Object.entries(users)); // Get array with [key, values] of each object property
