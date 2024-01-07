@@ -49,5 +49,8 @@ const clearInput = () => {
 };
 
 const appendItemToList = (inputValue) => {
-  shoppingListEl.innerHTML += `<li>${inputValue}</li>`;
+  const newEl = document.createElement("li");
+  newEl.textContent = inputValue;
+
+  shoppingListEl.append(newEl);
 };
