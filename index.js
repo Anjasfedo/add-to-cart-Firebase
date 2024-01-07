@@ -17,14 +17,16 @@ const addButtonEl = document.getElementById("add-button");
 const shoppingListEl = document.getElementById("shopping-list");
 
 onValue(shoppingListInDB, (snapshot) => {
-  let shoppingArray = Object.values(snapshot.val());
+  let shoppingArray = Object.entries(snapshot.val());
 
   clearList();
 
   for (let i in shoppingArray) {
     const currentItem = shoppingArray[i];
 
-    appendItemToList(currentItem);
+    const [currentItemID, currentItemValue] = currentItem;
+
+    appendItemToList(currentItemValue);
   }
 });
 
