@@ -18,14 +18,18 @@ const addButtonEl = document.getElementById("add-button");
 const shoppingListEl = document.getElementById("shopping-list");
 
 onValue(shoppingListInDB, (snapshot) => {
-  let shoppingArray = Object.entries(snapshot.val());
+  if (snapshot.exists()) {
+    let shoppingArray = Object.entries(snapshot.val());
 
-  clearList();
+    clearList();
 
-  for (let i in shoppingArray) {
-    const currentItem = shoppingArray[i];
+    for (let i in shoppingArray) {
+      const currentItem = shoppingArray[i];
 
-    appendItemToList(currentItem);
+      appendItemToList(currentItem);
+    }
+  } else {
+    shoppingListEl.innerHTML = "No items here . . .";
   }
 });
 
