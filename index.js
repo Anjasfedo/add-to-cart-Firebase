@@ -6,6 +6,7 @@ import {
   ref,
   push,
   onValue,
+  remove,
 } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
 
 const app = initializeApp(appSettings);
@@ -24,9 +25,7 @@ onValue(shoppingListInDB, (snapshot) => {
   for (let i in shoppingArray) {
     const currentItem = shoppingArray[i];
 
-    const [currentItemID, currentItemValue] = currentItem;
-
-    appendItemToList(currentItemValue);
+    appendItemToList(currentItem);
   }
 });
 
@@ -48,9 +47,17 @@ const clearInput = () => {
   inputFieldEl.value = "";
 };
 
-const appendItemToList = (inputValue) => {
+const appendItemToList = (currentItem) => {
+  const [currentItemID, currentItemValue] = currentItem;
+
   const newEl = document.createElement("li");
-  newEl.textContent = inputValue;
+  newEl.textContent = currentItemValue;
+
+  newEl.addEventListener("dblclick", () => {
+    const exactLocationOnDB = ref(database, `shoppingList/${currentItemID}`);
+
+    remove(exactLocationOnDB);
+  });
 
   shoppingListEl.append(newEl);
 };
